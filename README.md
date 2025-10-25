@@ -29,7 +29,7 @@ This React + TypeScript application fetches and displays a **random user's full 
 1. **Clone the repository**
 
 ```bash
-git clone <your-repo-url>
+git clone git@github.com:developerrahul27/Random-Use--Info.git
 cd random-user-app
 ```
 
