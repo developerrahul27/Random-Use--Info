@@ -54,14 +54,14 @@ const UserCard: React.FC<Props> = ({ user, loading, onRefresh }) => {
             >
               Email: {user.email}
             </Typography>
-            <Typography
+            {/* <Typography
               variant="h4"
               color="text.secondary"
               gutterBottom
               sx={{ fontSize: "1.4rem" }}
             >
               Location: {user.location}
-            </Typography>
+            </Typography> */}
 
             <Button
               variant="contained"
