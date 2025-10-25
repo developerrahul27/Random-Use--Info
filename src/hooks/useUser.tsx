@@ -28,7 +28,6 @@ export const useUser = () => {
     }
   };
 
-  // Load from localStorage or fetch new
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
     if (savedUser) {
