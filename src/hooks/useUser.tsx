@@ -1,26 +1,28 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import type { ApiResponse, DisplayUser } from "../types";
+import { fetchUserApi } from "./useFetch";
 
 export const useUser = () => {
-  const [user, setUser] = useState<DisplayUser | null>(null);
+  const [users, setUsers] = useState<DisplayUser[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const fetchUser = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get<ApiResponse>(
-        "https://randomuser.me/api"
-      );
-      const result = data.results[0];
-      const displayUser: DisplayUser = {
+      const data: ApiResponse = await fetchUserApi();
+
+      if (!data.results || data.results.length === 0) {
+        throw new Error("No users found in API response");
+      }
+
+      const displayUsers: DisplayUser[] = data.results.map((result) => ({
         fullName: `${result.name.title} ${result.name.first} ${result.name.last}`,
         email: result.email,
         location: `${result.location.city}, ${result.location.street.name}, ${result.location.country}`,
-      };
+      }));
 
-      localStorage.setItem("user", JSON.stringify(displayUser));
-      setUser(displayUser);
+      localStorage.setItem("users", JSON.stringify(displayUsers));
+      setUsers(displayUsers);
     } catch (err) {
       console.error("Error fetching user:", err);
     } finally {
@@ -29,14 +31,14 @@ export const useUser = () => {
   };
 
   useEffect(() => {
-    const savedUser = localStorage.getItem("user");
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
+    const savedUsers = localStorage.getItem("users");
+    if (savedUsers) {
+      setUsers(JSON.parse(savedUsers));
       setLoading(false);
     } else {
       fetchUser();
     }
   }, []);
 
-  return { user, loading, fetchUser };
+  return { users, loading, fetchUser };
 };
