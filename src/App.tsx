@@ -15,7 +15,7 @@ const App: React.FC = () => {
         mb={2}
         fontWeight="bold"
       >
-        Random User Information
+        User Information
       </Typography>
       <UserCard user={user} loading={loading} onRefresh={fetchUser} />
     </Container>
