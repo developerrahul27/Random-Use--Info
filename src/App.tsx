@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Container,
-  Typography,
-  Button,
-  CircularProgress,
-  Box,
-} from "@mui/material";
+import { Container, Typography, Button, Box, Skeleton } from "@mui/material";
 import { useUser } from "./hooks/useUser";
 import UserCard from "./components/UserCard";
 
@@ -35,17 +29,21 @@ const App: React.FC = () => {
         </Button>
       </Box>
 
-      {loading ? (
-        <Box display="flex" justifyContent="center" mt={5}>
-          <CircularProgress color="primary" />
-        </Box>
-      ) : (
-        <Box display="flex" justifyContent="center">
-          {users?.map((user, index) => (
-            <UserCard key={index} user={user} loading={loading} />
-          ))}
-        </Box>
-      )}
+      <Box display="flex" justifyContent="center" flexWrap="wrap" gap={2}>
+        {loading
+          ? Array.from(new Array(1)).map((_, index) => (
+              <Skeleton
+                key={index}
+                variant="rectangular"
+                width={250}
+                height={150}
+                sx={{ borderRadius: 2 }}
+              />
+            ))
+          : users?.map((user, index) => (
+              <UserCard key={index} user={user} loading={loading} />
+            ))}
+      </Box>
     </Container>
   );
 };
